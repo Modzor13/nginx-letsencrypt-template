@@ -1,0 +1,26 @@
+services: 
+  letsencrypt:
+    container_name: letsencrypt
+    environment:
+      - TZ=America/Los_Angeles
+      - URL=example.com
+      - SUBDOMAINS=wildcard
+      - PGID=1000
+      - PUID=1000
+      - ONLY_SUBDOMAINS=false
+      - EMAIL=youremail@example.com
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+      #- EXTRA_DOMAINS=example-two.com,example-three.com
+    hostname: letsencrypt
+    image: linuxserver/letsencrypt 
+    restart: unless-stopped
+    volumes:
+        - "./dockerconfig/letsencrypt:/config" # Use to easily access config files
+        #- letsencrypt:/config  # Use volumes to avoid permission issues
+    ports:
+      - 80:80
+      - 443:443
+version: "3"
+#volumes:
+#  letsencrypt:
